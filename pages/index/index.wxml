@@ -1,0 +1,80 @@
+<!--pages/index/index.wxml-->
+<view class="container">
+  <!-- 页面标题 -->
+  <view class="header">
+    <text class="title">选择您的专注航班</text>
+    <text class="subtitle">飞行时长即为专注时间</text>
+  </view>
+
+  <!-- 航班选择卡片 -->
+  <view class="flight-card">
+    <!-- 起始地选择 -->
+    <view class="city-selector">
+      <view class="city-item from-city" bindtap="selectFromCity">
+        <view class="city-label">起飞地</view>
+        <view class="city-name">{{fromCity.name || '选择城市'}}</view>
+        <view class="city-code">{{fromCity.code || ''}}</view>
+        <view class="location-btn" wx:if="{{fromCity.name}}" bindtap="requestLocation">
+          <text class="location-icon">📍</text>
+        </view>
+      </view>
+      
+      <!-- 飞机图标 -->
+      <view class="flight-icon">
+        <text class="icon">✈️</text>
+      </view>
+      
+      <!-- 目的地选择 -->
+      <view class="city-item to-city" bindtap="selectToCity">
+        <view class="city-label">目的地</view>
+        <view class="city-name">{{toCity.name || '选择城市'}}</view>
+        <view class="city-code">{{toCity.code || ''}}</view>
+      </view>
+    </view>
+
+    <!-- 航班信息 -->
+    <view class="flight-info" wx:if="{{flightInfo.flightNumber}}">
+      <view class="flight-number">航班号: {{flightInfo.flightNumber}}</view>
+      <view class="flight-time">
+        <text class="duration">飞行时长: {{flightInfo.durationText}}</text>
+        <text class="distance">距离: {{flightInfo.distance}}公里</text>
+      </view>
+      <view class="departure-time">预计起飞: {{flightInfo.departureTime}}</view>
+    </view>
+  </view>
+
+  <!-- 热门航线推荐 -->
+  <view class="popular-routes" wx:if="{{popularRoutes.length > 0}}">
+    <view class="section-title">热门航线</view>
+    <scroll-view class="routes-scroll" scroll-x="true">
+      <view class="route-item" wx:for="{{popularRoutes}}" wx:key="id" bindtap="selectRoute" data-route="{{item}}">
+        <view class="route-cities">{{item.from}} → {{item.to}}</view>
+        <view class="route-time">{{item.durationText}}</view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 开始专注按钮 -->
+  <view class="action-area">
+    <button class="start-btn" bindtap="startFocus" disabled="{{!canStart}}">
+      {{canStart ? '登机专注' : '请选择航班'}}
+    </button>
+  </view>
+</view>
+
+<!-- 城市选择弹窗 -->
+<view class="city-modal" wx:if="{{showCityModal}}">
+  <view class="modal-mask" bindtap="closeCityModal"></view>
+  <view class="modal-content">
+    <view class="modal-header">
+      <text class="modal-title">选择{{modalType === 'from' ? '起飞' : '目的'}}城市</text>
+      <text class="modal-close" bindtap="closeCityModal">×</text>
+    </view>
+    <scroll-view class="city-list" scroll-y="true">
+      <view class="city-option" wx:for="{{availableCities}}" wx:key="id" bindtap="selectCity" data-city="{{item}}">
+        <text class="city-name">{{item.name}}</text>
+        <text class="city-code">{{item.code}}</text>
+      </view>
+    </scroll-view>
+  </view>
+</view>

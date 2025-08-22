@@ -1,0 +1,121 @@
+<!--pages/profile/profile.wxml-->
+<view class="container">
+  <!-- 用户信息头部 -->
+  <view class="user-header">
+    <view class="user-info" bindtap="getUserInfo" wx:if="{{!userInfo.nickName}}">
+      <image class="avatar" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjRjVGNUY1Ii8+CjxjaXJjbGUgY3g9IjUwIiBjeT0iNDAiIHI9IjE1IiBmaWxsPSIjQ0NDIi8+CjxwYXRoIGQ9Ik0yNSA3NUMyNSA2NS41IDM0LjUgNTggNDYgNThINTRDNjUuNSA1OCA3NSA2NS41IDc1IDc1VjgwSDI1Vjc1WiIgZmlsbD0iI0NDQyIvPgo8L3N2Zz4K" mode="aspectFill"></image>
+      <view class="user-details">
+        <text class="nickname">点击登录</text>
+        <text class="user-id">获取微信用户信息</text>
+      </view>
+    </view>
+    
+    <view class="user-info" wx:if="{{userInfo.nickName}}">
+      <image class="avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
+      <view class="user-details">
+        <text class="nickname">{{userInfo.nickName}}</text>
+        <text class="user-id">飞行员 ID: {{userInfo.openId}}</text>
+        <text class="login-time" wx:if="{{userInfo.loginTime}}">登录时间: {{loginTimeText}}</text>
+      </view>
+    </view>
+    
+    <view class="login-actions">
+      <button class="login-btn" wx:if="{{!userInfo.nickName}}" bindtap="getUserInfo">
+        <text>微信登录</text>
+      </button>
+      <button class="phone-btn" wx:if="{{userInfo.nickName && !userInfo.phoneNumber}}" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">
+        <text>获取手机号</text>
+      </button>
+      <view class="phone-info" wx:if="{{userInfo.phoneNumber}}">
+        <text class="phone-number">手机号: {{userInfo.phoneNumber}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 统计数据 -->
+  <view class="stats-section">
+    <view class="stats-title">飞行统计</view>
+    <view class="stats-grid">
+      <view class="stat-item">
+        <text class="stat-number">{{totalFlights}}</text>
+        <text class="stat-label">总航班数</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-number">{{totalHours}}</text>
+        <text class="stat-label">总飞行时长</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-number">{{totalDistance}}</text>
+        <text class="stat-label">总里程(km)</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-number">{{continuousDays}}</text>
+        <text class="stat-label">连续天数</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 本周统计 -->
+  <view class="week-stats">
+    <view class="section-title">本周专注</view>
+    <view class="week-chart">
+      <view class="chart-bar" wx:for="{{weekData}}" wx:key="day">
+        <view class="bar" style="height: {{item.height}}%"></view>
+        <text class="day-label">{{item.day}}</text>
+      </view>
+    </view>
+    <view class="week-summary">
+      <text>本周共专注 {{weekTotal}} 分钟</text>
+    </view>
+  </view>
+
+  <!-- 最近航班记录 -->
+  <view class="recent-flights">
+    <view class="section-title">
+      <text>最近航班</text>
+      <text class="view-all" bindtap="viewAllFlights">查看全部</text>
+    </view>
+    <view class="flight-list">
+      <view class="flight-item" wx:for="{{recentFlights}}" wx:key="id">
+        <view class="flight-route">
+          <text class="route-text">{{item.fromCity}} → {{item.toCity}}</text>
+          <text class="flight-number">{{item.flightNumber}}</text>
+        </view>
+        <view class="flight-info">
+          <text class="duration">{{item.durationText}}</text>
+          <text class="date">{{item.dateText}}</text>
+        </view>
+        <view class="flight-status">
+          <text class="status {{item.completed ? 'completed' : 'cancelled'}}">
+            {{item.completed ? '已完成' : '已取消'}}
+          </text>
+        </view>
+      </view>
+    </view>
+    
+    <view class="empty-state" wx:if="{{recentFlights.length === 0}}">
+      <text class="empty-icon">✈️</text>
+      <text class="empty-text">还没有飞行记录</text>
+      <text class="empty-subtitle">开始你的第一次专注飞行吧！</text>
+    </view>
+  </view>
+
+  <!-- 功能菜单 -->
+  <view class="menu-section">
+    <view class="menu-item" bindtap="goToSettings">
+      <text class="menu-icon">⚙️</text>
+      <text class="menu-text">设置</text>
+      <text class="menu-arrow">></text>
+    </view>
+    <view class="menu-item" bindtap="clearData">
+      <text class="menu-icon">🗑️</text>
+      <text class="menu-text">清除数据</text>
+      <text class="menu-arrow">></text>
+    </view>
+    <view class="menu-item" bindtap="aboutApp">
+      <text class="menu-icon">ℹ️</text>
+      <text class="menu-text">关于应用</text>
+      <text class="menu-arrow">></text>
+    </view>
+  </view>
+</view>

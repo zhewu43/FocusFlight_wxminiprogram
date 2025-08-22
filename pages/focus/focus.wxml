@@ -1,0 +1,90 @@
+<!--pages/focus/focus.wxml-->
+<view class="container">
+  <!-- 航班信息头部 -->
+  <view class="flight-header">
+    <view class="flight-route">
+      <text class="city-name">{{fromCity}}</text>
+      <view class="flight-arrow">
+        <text class="arrow">→</text>
+        <text class="plane-icon">✈️</text>
+      </view>
+      <text class="city-name">{{toCity}}</text>
+    </view>
+    <view class="flight-details">
+      <text class="flight-number">{{flightNumber}}</text>
+      <text class="flight-distance">{{distance}}公里</text>
+    </view>
+  </view>
+
+  <!-- 专注状态显示 -->
+  <view class="focus-status">
+    <view class="status-text">{{statusText}}</view>
+    <view class="altitude">飞行高度: {{altitude}}米</view>
+  </view>
+
+  <!-- 倒计时显示 -->
+  <view class="timer-display">
+    <view class="time-text">
+      <text class="time-main">{{displayTime}}</text>
+      <text class="time-label">剩余时间</text>
+    </view>
+    
+    <!-- 竖线进度条 -->
+    <view class="vertical-progress">
+      <view class="progress-track">
+        <view class="progress-bar" style="height: {{progressPercent}}%"></view>
+        <view class="progress-indicator" style="bottom: {{progressPercent}}%">
+          <text class="plane-indicator">✈️</text>
+        </view>
+      </view>
+      <view class="progress-labels">
+        <text class="end-label">{{toCity}}</text>
+        <text class="start-label">{{fromCity}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 进度信息 -->
+  <view class="progress-info">
+    <view class="progress-item">
+      <text class="progress-label">已专注</text>
+      <text class="progress-value">{{focusedTime}}</text>
+    </view>
+    <view class="progress-item">
+      <text class="progress-label">完成度</text>
+      <text class="progress-value">{{progressPercent}}%</text>
+    </view>
+  </view>
+
+  <!-- 控制按钮 -->
+  <view class="control-buttons">
+    <button class="control-btn pause-btn" bindtap="togglePause" wx:if="{{!isCompleted}}">
+      {{isPaused ? '继续飞行' : '暂停飞行'}}
+    </button>
+    <button class="control-btn stop-btn" bindtap="stopFocus" wx:if="{{!isCompleted}}">
+      取消航班
+    </button>
+    <button class="control-btn complete-btn" bindtap="backToHome" wx:if="{{isCompleted}}">
+      返回首页
+    </button>
+  </view>
+
+  <!-- 完成庆祝 -->
+  <view class="celebration" wx:if="{{showCelebration}}">
+    <view class="celebration-content">
+      <text class="celebration-icon">🎉</text>
+      <text class="celebration-title">航班已到达！</text>
+      <text class="celebration-subtitle">恭喜完成 {{totalDuration}} 分钟的专注时光</text>
+      <view class="celebration-stats">
+        <view class="stat-item">
+          <text class="stat-value">{{distance}}</text>
+          <text class="stat-label">公里</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value">{{totalDuration}}</text>
+          <text class="stat-label">分钟</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

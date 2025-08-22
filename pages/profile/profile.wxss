@@ -1,0 +1,341 @@
+/* pages/profile/profile.wxss */
+.container {
+  background: #f5f7fa;
+  min-height: 100vh;
+  padding-bottom: 40rpx;
+}
+
+/* 用户信息头部 */
+.user-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 60rpx 40rpx 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 60rpx;
+  border: 4rpx solid rgba(255, 255, 255, 0.3);
+  margin-right: 30rpx;
+}
+
+.user-details {
+  flex: 1;
+}
+
+.nickname {
+  display: block;
+  font-size: 36rpx;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 8rpx;
+}
+
+.user-id {
+  display: block;
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.login-time {
+  display: block;
+  font-size: 20rpx;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 4rpx;
+}
+
+.login-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.login-btn, .phone-btn {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 16rpx 32rpx;
+  border-radius: 40rpx;
+  border: 2rpx solid rgba(255, 255, 255, 0.3);
+  font-size: 28rpx;
+  color: white;
+}
+
+.login-btn::after, .phone-btn::after {
+  border: none;
+}
+
+.phone-info {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 12rpx 24rpx;
+  border-radius: 30rpx;
+  text-align: center;
+}
+
+.phone-number {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* 统计数据 */
+.stats-section {
+  background: white;
+  margin: 20rpx;
+  border-radius: 20rpx;
+  padding: 40rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+}
+
+.stats-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 30rpx;
+  text-align: center;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30rpx;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 20rpx;
+  background: #f8f9ff;
+  border-radius: 16rpx;
+}
+
+.stat-number {
+  display: block;
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #1890ff;
+  margin-bottom: 8rpx;
+}
+
+.stat-label {
+  display: block;
+  font-size: 24rpx;
+  color: #666;
+}
+
+/* 本周统计 */
+.week-stats {
+  background: white;
+  margin: 20rpx;
+  border-radius: 20rpx;
+  padding: 40rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 30rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.view-all {
+  font-size: 24rpx;
+  color: #1890ff;
+}
+
+.week-chart {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 200rpx;
+  margin-bottom: 20rpx;
+  padding: 0 20rpx;
+}
+
+.chart-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.bar {
+  width: 60rpx;
+  background: linear-gradient(to top, #1890ff, #40a9ff);
+  border-radius: 30rpx 30rpx 0 0;
+  margin-bottom: 10rpx;
+  min-height: 20rpx;
+  transition: height 0.3s ease;
+}
+
+.day-label {
+  font-size: 20rpx;
+  color: #999;
+}
+
+.week-summary {
+  text-align: center;
+  font-size: 24rpx;
+  color: #666;
+}
+
+/* 最近航班记录 */
+.recent-flights {
+  background: white;
+  margin: 20rpx;
+  border-radius: 20rpx;
+  padding: 40rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+}
+
+.flight-list {
+  margin-top: 20rpx;
+}
+
+.flight-item {
+  display: flex;
+  align-items: center;
+  padding: 30rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.flight-item:last-child {
+  border-bottom: none;
+}
+
+.flight-route {
+  flex: 1;
+}
+
+.route-text {
+  display: block;
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.flight-number {
+  display: block;
+  font-size: 20rpx;
+  color: #999;
+}
+
+.flight-info {
+  text-align: center;
+  margin: 0 20rpx;
+}
+
+.duration {
+  display: block;
+  font-size: 24rpx;
+  font-weight: bold;
+  color: #1890ff;
+  margin-bottom: 4rpx;
+}
+
+.date {
+  display: block;
+  font-size: 20rpx;
+  color: #999;
+}
+
+.flight-status {
+  min-width: 120rpx;
+  text-align: center;
+}
+
+.status {
+  display: inline-block;
+  padding: 8rpx 16rpx;
+  border-radius: 20rpx;
+  font-size: 20rpx;
+}
+
+.status.completed {
+  background: #f6ffed;
+  color: #52c41a;
+  border: 1rpx solid #b7eb8f;
+}
+
+.status.cancelled {
+  background: #fff2f0;
+  color: #ff4d4f;
+  border: 1rpx solid #ffccc7;
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 80rpx 40rpx;
+}
+
+.empty-icon {
+  display: block;
+  font-size: 120rpx;
+  margin-bottom: 20rpx;
+  opacity: 0.3;
+}
+
+.empty-text {
+  display: block;
+  font-size: 32rpx;
+  color: #999;
+  margin-bottom: 10rpx;
+}
+
+.empty-subtitle {
+  display: block;
+  font-size: 24rpx;
+  color: #ccc;
+}
+
+/* 功能菜单 */
+.menu-section {
+  background: white;
+  margin: 20rpx;
+  border-radius: 20rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 40rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+  transition: background-color 0.2s ease;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-item:active {
+  background-color: #f5f5f5;
+}
+
+.menu-icon {
+  font-size: 40rpx;
+  margin-right: 30rpx;
+}
+
+.menu-text {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.menu-arrow {
+  font-size: 24rpx;
+  color: #ccc;
+}

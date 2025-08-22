@@ -1,0 +1,299 @@
+/* pages/index/index.wxss */
+.container {
+  padding: 20rpx;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 40rpx;
+  padding-top: 40rpx;
+}
+
+.title {
+  display: block;
+  font-size: 48rpx;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 10rpx;
+}
+
+.subtitle {
+  display: block;
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.flight-card {
+  background: white;
+  border-radius: 20rpx;
+  padding: 40rpx;
+  margin-bottom: 40rpx;
+  box-shadow: 0 10rpx 30rpx rgba(0, 0, 0, 0.1);
+}
+
+.city-selector {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30rpx;
+}
+
+.city-item {
+  flex: 1;
+  text-align: center;
+  padding: 20rpx;
+  border: 2rpx dashed #e0e0e0;
+  border-radius: 12rpx;
+  transition: all 0.3s ease;
+}
+
+.city-item.from-city {
+  margin-right: 20rpx;
+}
+
+.city-item.to-city {
+  margin-left: 20rpx;
+}
+
+.city-item:active {
+  background-color: #f5f5f5;
+  border-color: #1890ff;
+}
+
+.city-label {
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 8rpx;
+}
+
+.city-name {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 4rpx;
+}
+
+.city-code {
+  font-size: 20rpx;
+  color: #666;
+}
+
+.location-btn {
+  position: absolute;
+  top: 10rpx;
+  right: 10rpx;
+  width: 40rpx;
+  height: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(24, 144, 255, 0.1);
+  border-radius: 20rpx;
+  transition: all 0.2s ease;
+}
+
+.location-btn:active {
+  background: rgba(24, 144, 255, 0.2);
+  transform: scale(0.95);
+}
+
+.location-icon {
+  font-size: 24rpx;
+}
+
+.flight-icon {
+  margin: 0 20rpx;
+}
+
+.flight-icon .icon {
+  font-size: 60rpx;
+  transform: rotate(90deg);
+}
+
+.flight-info {
+  background: #f8f9ff;
+  border-radius: 12rpx;
+  padding: 24rpx;
+  border-left: 6rpx solid #1890ff;
+}
+
+.flight-number {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #1890ff;
+  margin-bottom: 12rpx;
+}
+
+.flight-time {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8rpx;
+}
+
+.duration {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.distance {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.departure-time {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.popular-routes {
+  margin-bottom: 40rpx;
+}
+
+.section-title {
+  color: white;
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+}
+
+.routes-scroll {
+  white-space: nowrap;
+}
+
+.route-item {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12rpx;
+  padding: 20rpx 24rpx;
+  margin-right: 20rpx;
+  min-width: 200rpx;
+  text-align: center;
+}
+
+.route-cities {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.route-time {
+  font-size: 24rpx;
+  color: #1890ff;
+}
+
+.action-area {
+  position: fixed;
+  bottom: 40rpx;
+  left: 20rpx;
+  right: 20rpx;
+}
+
+.start-btn {
+  width: 100%;
+  height: 100rpx;
+  background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+  color: white;
+  font-size: 36rpx;
+  font-weight: bold;
+  border-radius: 50rpx;
+  border: none;
+  box-shadow: 0 8rpx 20rpx rgba(255, 107, 107, 0.3);
+}
+
+.start-btn:disabled {
+  background: #ccc;
+  box-shadow: none;
+}
+
+.start-btn:not(:disabled):active {
+  transform: translateY(2rpx);
+}
+
+/* 城市选择弹窗 */
+.city-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+}
+
+.modal-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 20rpx 20rpx 0 0;
+  max-height: 80vh;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30rpx 40rpx;
+  border-bottom: 2rpx solid #f0f0f0;
+}
+
+.modal-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.modal-close {
+  font-size: 60rpx;
+  color: #999;
+  line-height: 1;
+}
+
+.city-list {
+  max-height: 60vh;
+}
+
+.city-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30rpx 40rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.city-option:active {
+  background-color: #f5f5f5;
+}
+
+.city-option .city-name {
+  font-size: 32rpx;
+  color: #333;
+}
+
+.city-option .city-code {
+  font-size: 24rpx;
+  color: #999;
+}

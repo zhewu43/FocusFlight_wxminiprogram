@@ -1,0 +1,170 @@
+<!--pages/settings/settings.wxml-->
+<view class="container">
+  <!-- 页面标题 -->
+  <view class="header">
+    <text class="title">设置</text>
+  </view>
+
+  <!-- 基础设置 -->
+  <view class="settings-section">
+    <view class="section-title">基础设置</view>
+    
+    <view class="setting-item">
+      <view class="setting-info">
+        <text class="setting-label">默认起始城市</text>
+        <text class="setting-desc">设置航班选择时的默认起飞地</text>
+      </view>
+      <view class="setting-value" bindtap="selectDefaultCity">
+        <text class="value-text">{{defaultCity.name || '北京'}}</text>
+        <text class="arrow">></text>
+      </view>
+    </view>
+
+    <view class="setting-item">
+      <view class="setting-info">
+        <text class="setting-label">完成提醒音</text>
+        <text class="setting-desc">专注完成时播放提示音</text>
+      </view>
+      <view class="setting-value">
+        <switch checked="{{soundEnabled}}" bindchange="toggleSound" color="#1890ff"/>
+      </view>
+    </view>
+
+    <view class="setting-item">
+      <view class="setting-info">
+        <text class="setting-label">震动反馈</text>
+        <text class="setting-desc">操作时提供震动反馈</text>
+      </view>
+      <view class="setting-value">
+        <switch checked="{{vibrationEnabled}}" bindchange="toggleVibration" color="#1890ff"/>
+      </view>
+    </view>
+  </view>
+
+  <!-- 专注设置 -->
+  <view class="settings-section">
+    <view class="section-title">专注设置</view>
+    
+    <view class="setting-item">
+      <view class="setting-info">
+        <text class="setting-label">最短专注时间</text>
+        <text class="setting-desc">航班最短飞行时长</text>
+      </view>
+      <view class="setting-value" bindtap="setMinDuration">
+        <text class="value-text">{{minDuration}}分钟</text>
+        <text class="arrow">></text>
+      </view>
+    </view>
+
+    <view class="setting-item">
+      <view class="setting-info">
+        <text class="setting-label">最长专注时间</text>
+        <text class="setting-desc">航班最长飞行时长</text>
+      </view>
+      <view class="setting-value" bindtap="setMaxDuration">
+        <text class="value-text">{{maxDuration}}分钟</text>
+        <text class="arrow">></text>
+      </view>
+    </view>
+
+    <view class="setting-item">
+      <view class="setting-info">
+        <text class="setting-label">自动暂停</text>
+        <text class="setting-desc">来电时自动暂停专注</text>
+      </view>
+      <view class="setting-value">
+        <switch checked="{{autoPauseEnabled}}" bindchange="toggleAutoPause" color="#1890ff"/>
+      </view>
+    </view>
+  </view>
+
+  <!-- 数据管理 -->
+  <view class="settings-section">
+    <view class="section-title">数据管理</view>
+    
+    <view class="setting-item" bindtap="exportData">
+      <view class="setting-info">
+        <text class="setting-label">导出数据</text>
+        <text class="setting-desc">导出专注记录数据</text>
+      </view>
+      <view class="setting-value">
+        <text class="arrow">></text>
+      </view>
+    </view>
+
+    <view class="setting-item" bindtap="clearAllData">
+      <view class="setting-info">
+        <text class="setting-label">清除所有数据</text>
+        <text class="setting-desc">删除所有专注记录和设置</text>
+      </view>
+      <view class="setting-value">
+        <text class="arrow">></text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 关于应用 -->
+  <view class="settings-section">
+    <view class="section-title">关于</view>
+    
+    <view class="setting-item" bindtap="aboutApp">
+      <view class="setting-info">
+        <text class="setting-label">关于 FocusFlight</text>
+        <text class="setting-desc">版本信息和开发者信息</text>
+      </view>
+      <view class="setting-value">
+        <text class="arrow">></text>
+      </view>
+    </view>
+
+    <view class="setting-item" bindtap="feedback">
+      <view class="setting-info">
+        <text class="setting-label">意见反馈</text>
+        <text class="setting-desc">提交使用建议和问题反馈</text>
+      </view>
+      <view class="setting-value">
+        <text class="arrow">></text>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 城市选择弹窗 -->
+<view class="city-modal" wx:if="{{showCityModal}}">
+  <view class="modal-mask" bindtap="closeCityModal"></view>
+  <view class="modal-content">
+    <view class="modal-header">
+      <text class="modal-title">选择默认起始城市</text>
+      <text class="modal-close" bindtap="closeCityModal">×</text>
+    </view>
+    <scroll-view class="city-list" scroll-y="true">
+      <view class="city-option" wx:for="{{cities}}" wx:key="id" bindtap="selectCity" data-city="{{item}}">
+        <text class="city-name">{{item.name}}</text>
+        <text class="city-code">{{item.code}}</text>
+        <text class="check-icon" wx:if="{{item.id === defaultCity.id}}">✓</text>
+      </view>
+    </scroll-view>
+  </view>
+</view>
+
+<!-- 时间设置弹窗 -->
+<view class="time-modal" wx:if="{{showTimeModal}}">
+  <view class="modal-mask" bindtap="closeTimeModal"></view>
+  <view class="modal-content">
+    <view class="modal-header">
+      <text class="modal-title">{{timeModalTitle}}</text>
+      <text class="modal-close" bindtap="closeTimeModal">×</text>
+    </view>
+    <view class="time-picker">
+      <picker-view class="picker" value="{{timePickerValue}}" bindchange="onTimePickerChange">
+        <picker-view-column>
+          <view wx:for="{{timeOptions}}" wx:key="*this" class="picker-item">{{item}}分钟</view>
+        </picker-view-column>
+      </picker-view>
+      <view class="picker-buttons">
+        <button class="picker-btn cancel" bindtap="closeTimeModal">取消</button>
+        <button class="picker-btn confirm" bindtap="confirmTimeChange">确定</button>
+      </view>
+    </view>
+  </view>
+</view>
