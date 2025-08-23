@@ -85,33 +85,23 @@ Page({
     });
   },
 
-  // 获取手机号
-  getPhoneNumber(e) {
-    console.log('获取手机号回调', e);
-    
-    if (e.detail.errMsg === 'getPhoneNumber:ok') {
-      // 这里需要将encryptedData和iv发送到后端解密获取真实手机号
-      // 演示版本中我们模拟一个手机号
-      const currentUserInfo = this.data.userInfo;
-      const updatedUserInfo = {
-        ...currentUserInfo,
-        phoneNumber: '138****8888', // 演示用手机号
-        hasPhone: true
-      };
-      
-      wx.setStorageSync('userInfo', updatedUserInfo);
-      this.setData({ userInfo: updatedUserInfo });
-      
-      wx.showToast({
-        title: '手机号获取成功',
-        icon: 'success'
-      });
-    } else {
-      wx.showToast({
-        title: '手机号获取失败',
-        icon: 'none'
-      });
-    }
+  // 页面分享处理
+  onShareAppMessage() {
+    const { totalFlights, totalHours } = this.data;
+    return {
+      title: `我在FocusFlight已完成${totalFlights}次专注飞行，累计${totalHours}！`,
+      path: '/pages/index/index',
+      imageUrl: '' // 可以设置分享图片路径
+    };
+  },
+
+  // 分享到朋友圈（如果支持）
+  onShareTimeline() {
+    const { totalFlights, totalHours } = this.data;
+    return {
+      title: `我在FocusFlight已完成${totalFlights}次专注飞行，累计${totalHours}！`,
+      imageUrl: '' // 可以设置分享图片路径
+    };
   },
 
   // 完善用户信息登录

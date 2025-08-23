@@ -144,22 +144,28 @@ Page({
 
   // 加载热门航线
   loadPopularRoutes() {
+    // 预设不同时长的专注航线，直接指定时长而不依赖距离计算
     const routes = [
-      { from: '北京', to: '上海', id: 1 },
-      { from: '广州', to: '深圳', id: 2 },
-      { from: '杭州', to: '南京', id: 3 },
-      { from: '成都', to: '重庆', id: 4 },
-      { from: '武汉', to: '长沙', id: 5 }
+      { from: '家', to: '公司', id: 1, targetDuration: 5 }, // 5分钟
+      { from: '北京', to: '天津', id: 2, targetDuration: 10 }, // 10分钟
+      { from: '上海', to: '苏州', id: 3, targetDuration: 15 }, // 15分钟
+      { from: '北京', to: '石家庄', id: 4, targetDuration: 20 }, // 20分钟
+      { from: '北京', to: '西安', id: 5, targetDuration: 30 }  // 30分钟
     ];
 
+    // 为每条航线设置固定的时长
     const popularRoutes = routes.map(route => {
       const fromCity = cityUtils.getCityByName(route.from);
       const toCity = cityUtils.getCityByName(route.to);
+      
+      // 计算实际距离（用于显示）
       const distance = cityUtils.calculateDistance(
         fromCity.lat, fromCity.lng, 
         toCity.lat, toCity.lng
       );
-      const duration = cityUtils.calculateFlightTime(distance);
+      
+      // 直接使用目标时长，不依赖距离计算
+      const duration = route.targetDuration;
       
       return {
         ...route,

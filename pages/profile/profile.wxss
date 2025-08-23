@@ -59,7 +59,7 @@
   gap: 16rpx;
 }
 
-.login-btn, .phone-btn {
+.login-btn, .share-btn {
   background: rgba(255, 255, 255, 0.2);
   padding: 16rpx 32rpx;
   border-radius: 40rpx;
@@ -68,20 +68,17 @@
   color: white;
 }
 
-.login-btn::after, .phone-btn::after {
+.login-btn::after, .share-btn::after {
   border: none;
 }
 
-.phone-info {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 12rpx 24rpx;
-  border-radius: 30rpx;
-  text-align: center;
+.share-btn {
+  background: rgba(255, 255, 255, 0.25);
+  border: 2rpx solid rgba(255, 255, 255, 0.4);
 }
 
-.phone-number {
-  font-size: 24rpx;
-  color: rgba(255, 255, 255, 0.9);
+.share-btn:active {
+  background: rgba(255, 255, 255, 0.3);
 }
 
 /* 统计数据 */

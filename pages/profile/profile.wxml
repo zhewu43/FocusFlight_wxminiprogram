@@ -23,12 +23,9 @@
       <button class="login-btn" wx:if="{{!userInfo.nickName}}" bindtap="getUserInfo">
         <text>微信登录</text>
       </button>
-      <button class="phone-btn" wx:if="{{userInfo.nickName && !userInfo.phoneNumber}}" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">
-        <text>获取手机号</text>
+      <button class="share-btn" wx:if="{{userInfo.nickName}}" open-type="share">
+        <text>分享给好友</text>
       </button>
-      <view class="phone-info" wx:if="{{userInfo.phoneNumber}}">
-        <text class="phone-number">手机号: {{userInfo.phoneNumber}}</text>
-      </view>
     </view>
   </view>
 

@@ -1,5 +1,10 @@
 // 中国主要城市数据
 const cities = [
+  // 特殊地点（用于短时间专注）
+  { id: 0, name: '家', lat: 39.9042, lng: 116.4074, code: 'HOME' },
+  { id: 100, name: '公司', lat: 39.9142, lng: 116.4174, code: 'WORK' },
+  
+  // 常规城市
   { id: 1, name: '北京', lat: 39.9042, lng: 116.4074, code: 'BJS' },
   { id: 2, name: '上海', lat: 31.2304, lng: 121.4737, code: 'SHA' },
   { id: 3, name: '广州', lat: 23.1291, lng: 113.2644, code: 'CAN' },
@@ -66,8 +71,8 @@ function calculateFlightTime(distance) {
   const timeInHours = distance / speed;
   let timeInMinutes = Math.round(timeInHours * 60);
   
-  // 限制在15分钟-180分钟范围内
-  timeInMinutes = Math.max(15, Math.min(180, timeInMinutes));
+  // 限制在5分钟-180分钟范围内（修改为支持更短的专注时间）
+  timeInMinutes = Math.max(5, Math.min(180, timeInMinutes));
   
   // 调整为5分钟的倍数
   timeInMinutes = Math.round(timeInMinutes / 5) * 5;
