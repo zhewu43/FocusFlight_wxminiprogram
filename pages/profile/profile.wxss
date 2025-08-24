@@ -10,8 +10,9 @@
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 60rpx 40rpx 40rpx;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
+  gap: 20rpx;
 }
 
 .user-info {
@@ -53,32 +54,96 @@
   margin-top: 4rpx;
 }
 
+.login-hint {
+  display: block;
+  font-size: 20rpx;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 4rpx;
+  font-style: italic;
+}
+
 .login-actions {
   display: flex;
   flex-direction: column;
   gap: 16rpx;
+  min-width: 200rpx;
+  flex-shrink: 0;
 }
 
-.login-btn, .share-btn {
+.login-btn {
   background: rgba(255, 255, 255, 0.2);
   padding: 16rpx 32rpx;
   border-radius: 40rpx;
   border: 2rpx solid rgba(255, 255, 255, 0.3);
   font-size: 28rpx;
   color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
 }
 
-.login-btn::after, .share-btn::after {
+.login-btn::after {
   border: none;
+}
+
+.share-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+  align-items: center;
 }
 
 .share-btn {
   background: rgba(255, 255, 255, 0.25);
+  padding: 16rpx 24rpx;
+  border-radius: 32rpx;
   border: 2rpx solid rgba(255, 255, 255, 0.4);
+  font-size: 24rpx;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+  width: auto;
+  min-width: 190rpx;
+  max-width: 230rpx;
+}
+
+.share-btn::after {
+  border: none;
 }
 
 .share-btn:active {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.35);
+  transform: scale(0.98);
+}
+
+.friend-share {
+  background: rgba(76, 175, 80, 0.3);
+  border-color: rgba(76, 175, 80, 0.5);
+}
+
+.timeline-share {
+  background: rgba(255, 193, 7, 0.3);
+  border-color: rgba(255, 193, 7, 0.5);
+}
+
+.btn-icon {
+  font-size: 32rpx;
+  line-height: 1;
+}
+
+.btn-text {
+  font-size: 24rpx;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.login-btn .btn-text {
+  font-size: 28rpx;
 }
 
 /* 统计数据 */

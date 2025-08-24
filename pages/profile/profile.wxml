@@ -5,8 +5,9 @@
     <view class="user-info" bindtap="getUserInfo" wx:if="{{!userInfo.nickName}}">
       <image class="avatar" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjRjVGNUY1Ii8+CjxjaXJjbGUgY3g9IjUwIiBjeT0iNDAiIHI9IjE1IiBmaWxsPSIjQ0NDIi8+CjxwYXRoIGQ9Ik0yNSA3NUMyNSA2NS41IDM0LjUgNTggNDYgNThINTRDNjUuNSA1OCA3NSA2NS41IDc1IDc1VjgwSDI1Vjc1WiIgZmlsbD0iI0NDQyIvPgo8L3N2Zz4K" mode="aspectFill"></image>
       <view class="user-details">
-        <text class="nickname">点击登录</text>
-        <text class="user-id">获取微信用户信息</text>
+        <text class="nickname">游客飞行员</text>
+        <text class="user-id">飞行员 ID: {{userInfo.openId}}</text>
+        <text class="login-hint">点击登录获取完整权限</text>
       </view>
     </view>
     
@@ -21,11 +22,19 @@
     
     <view class="login-actions">
       <button class="login-btn" wx:if="{{!userInfo.nickName}}" bindtap="getUserInfo">
-        <text>微信登录</text>
+        <text class="btn-icon">👤</text>
+        <text class="btn-text">微信登录</text>
       </button>
-      <button class="share-btn" wx:if="{{userInfo.nickName}}" open-type="share">
-        <text>分享给好友</text>
-      </button>
+      <view class="share-actions" wx:if="{{userInfo.nickName}}">
+        <button class="share-btn friend-share" open-type="share">
+          <text class="btn-icon">💬</text>
+          <text class="btn-text">分享给好友</text>
+        </button>
+        <button class="share-btn timeline-share" bindtap="shareToTimeline">
+          <text class="btn-icon">🌟</text>
+          <text class="btn-text">分享朋友圈</text>
+        </button>
+      </view>
     </view>
   </view>
 

@@ -1,8 +1,8 @@
 // 中国主要城市数据
 const cities = [
-  // 特殊地点（用于短时间专注）
-  { id: 0, name: '家', lat: 39.9042, lng: 116.4074, code: 'HOME' },
-  { id: 100, name: '公司', lat: 39.9142, lng: 116.4174, code: 'WORK' },
+  // 特殊地点（用于短时间专注）- 设置为虚拟坐标，不参与地理定位
+  { id: 0, name: '家', lat: 0, lng: 0, code: 'HOME', isVirtual: true },
+  { id: 100, name: '公司', lat: 0, lng: 0, code: 'WORK', isVirtual: true },
   
   // 常规城市
   { id: 1, name: '北京', lat: 39.9042, lng: 116.4074, code: 'BJS' },

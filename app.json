@@ -29,6 +29,19 @@
     ]
   },
   "requiredBackgroundModes": ["audio"],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "您的位置信息将用于自动设置起飞城市"
+    }
+  },
+  "shareAppMessage": {
+    "title": "FocusFlight - 专注力管理小程序",
+    "path": "/pages/index/index"
+  },
+  "shareTimeline": {
+    "title": "我在FocusFlight完成了专注飞行！",
+    "path": "/pages/index/index"
+  },
   "style": "v2",
   "sitemapLocation": "sitemap.json"
 }

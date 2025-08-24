@@ -281,7 +281,7 @@ Page({
   aboutApp() {
     wx.showModal({
       title: 'FocusFlight',
-      content: '专注力管理小程序\n版本：1.0.0\n\n通过模拟航班飞行的方式，让专注变得更有趣！\n\n开发者：CodeBuddy\n技术栈：微信小程序原生开发',
+      content: '专注力管理小程序\n\n通过模拟航班飞行的方式，让专注变得更有趣！\n\n开发者：Zivewu',
       showCancel: false,
       confirmText: '知道了'
     });
@@ -291,7 +291,7 @@ Page({
   feedback() {
     wx.showModal({
       title: '意见反馈',
-      content: '感谢您使用 FocusFlight！\n\n如有任何建议或问题，请通过以下方式联系我们：\n\n• 微信群：FocusFlight用户群\n• 邮箱：feedback@focusflight.com\n\n反馈功能开发中...',
+      content: '感谢您使用 FocusFlight！\n\n如有任何建议或问题，请通过以下方式联系我们：\n\n• 邮箱：zivewu@outlook.com\n\n 反馈功能开发中...(可能比较慢)',
       showCancel: false,
       confirmText: '知道了'
     });

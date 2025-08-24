@@ -19,6 +19,12 @@ Page({
     this.loadStatistics();
     this.loadWeekData();
     this.loadRecentFlights();
+    
+    // 启用分享菜单
+    wx.showShareMenu({
+      withShareTicket: true,
+      menus: ['shareTimeline', 'shareAppMessage']
+    });
   },
 
   onShow() {
@@ -30,8 +36,17 @@ Page({
 
   // 加载用户信息
   loadUserInfo() {
-    const userInfo = wx.getStorageSync('userInfo') || {};
+    let userInfo = wx.getStorageSync('userInfo') || {};
     let loginTimeText = '';
+    
+    // 确保每个用户都有飞行员ID（包括未登录用户）
+    if (!userInfo.openId) {
+      // 生成临时飞行员ID
+      const tempId = this.generatePilotId();
+      userInfo.openId = tempId;
+      // 保存临时ID到本地存储
+      wx.setStorageSync('userInfo', userInfo);
+    }
     
     if (userInfo.loginTime) {
       const loginDate = new Date(userInfo.loginTime);
@@ -42,6 +57,13 @@ Page({
       userInfo,
       loginTimeText 
     });
+  },
+
+  // 生成飞行员ID
+  generatePilotId() {
+    // 生成格式：FF + 6位随机数字
+    const randomNum = Math.floor(100000 + Math.random() * 900000);
+    return `FF${randomNum}`;
   },
 
   // 格式化登录时间
@@ -85,6 +107,42 @@ Page({
     });
   },
 
+  // 分享给好友
+  shareToFriend() {
+    const { totalFlights, totalHours } = this.data;
+    wx.showShareMenu({
+      withShareTicket: true,
+      menus: ['shareAppMessage']
+    });
+  },
+
+  // 分享到朋友圈
+  shareToTimeline() {
+    const { totalFlights, totalHours } = this.data;
+    
+    // 确保分享菜单可用
+    wx.showShareMenu({
+      withShareTicket: true,
+      menus: ['shareTimeline', 'shareAppMessage']
+    });
+    
+    // 提示用户操作步骤
+    wx.showModal({
+      title: '分享到朋友圈',
+      content: `您的专注成果：已完成${totalFlights}次专注飞行，累计${totalHours}！\n\n请点击右上角的"..."按钮，选择"分享到朋友圈"即可分享您的专注成果！`,
+      showCancel: false,
+      confirmText: '知道了',
+      success: () => {
+        // 显示操作提示
+        wx.showToast({
+          title: '请点击右上角菜单',
+          icon: 'none',
+          duration: 2000
+        });
+      }
+    });
+  },
+
   // 页面分享处理
   onShareAppMessage() {
     const { totalFlights, totalHours } = this.data;
@@ -109,12 +167,19 @@ Page({
     wx.login({
       success: (loginRes) => {
         if (loginRes.code) {
+          // 获取当前的临时用户信息
+          const currentUserInfo = wx.getStorageSync('userInfo') || {};
+          
           // 这里需要将code发送到后端服务器换取openid和session_key
-          // 由于是演示版本，我们先保存基本信息
+          // 由于是演示版本，我们生成一个更真实的飞行员ID
+          const authenticatedPilotId = this.generateAuthenticatedPilotId();
+          
           const completeUserInfo = {
-            ...userInfo,
-            openId: 'fl_' + Date.now(), // 演示用的openId，使用fl前缀表示FocusFlight
-            loginTime: new Date().toISOString()
+            ...currentUserInfo, // 保留临时数据
+            ...userInfo, // 添加微信用户信息
+            openId: authenticatedPilotId, // 使用认证后的飞行员ID
+            loginTime: new Date().toISOString(),
+            isAuthenticated: true // 标记为已认证用户
           };
           
           wx.setStorageSync('userInfo', completeUserInfo);
@@ -137,6 +202,13 @@ Page({
         });
       }
     });
+  },
+
+  // 生成认证后的飞行员ID
+  generateAuthenticatedPilotId() {
+    // 生成格式：FL + 8位数字（FL表示FocusFlight Licensed Pilot）
+    const randomNum = Math.floor(10000000 + Math.random() * 90000000);
+    return `FL${randomNum}`;
   },
 
   // 加载统计数据
@@ -348,7 +420,7 @@ Page({
   aboutApp() {
     wx.showModal({
       title: 'FocusFlight',
-      content: '专注力管理小程序\n版本：1.0.0\n\n通过模拟航班飞行的方式，让专注变得更有趣！',
+      content: '专注力管理小程序\n版本：1.1.7\n\n通过模拟航班飞行的方式，让专注变得更有趣！',
       showCancel: false,
       confirmText: '知道了'
     });

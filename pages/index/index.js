@@ -10,7 +10,8 @@ Page({
     showCityModal: false,
     modalType: '', // 'from' 或 'to'
     availableCities: [],
-    canStart: false
+    canStart: false,
+    selectedRoute: null // 记录选中的热门航线
   },
 
   onLoad() {
@@ -89,11 +90,19 @@ Page({
           wx.authorize({
             scope: 'scope.userLocation',
             success: () => {
+              // 显示定位中提示
+              wx.showLoading({
+                title: '定位中...'
+              });
+              
               // 授权成功，获取位置
               wx.getLocation({
                 type: 'gcj02',
                 success: (locationRes) => {
+                  wx.hideLoading();
                   const { latitude, longitude } = locationRes;
+                  console.log('获取到位置:', latitude, longitude);
+                  
                   const nearestCity = this.findNearestCity(latitude, longitude);
                   if (nearestCity) {
                     this.setData({
@@ -103,23 +112,36 @@ Page({
                       title: `已定位到${nearestCity.name}`,
                       icon: 'success'
                     });
+                  } else {
+                    wx.showToast({
+                      title: '未找到附近城市',
+                      icon: 'none'
+                    });
+                    this.setDefaultCity();
                   }
                 },
-                fail: () => {
+                fail: (err) => {
+                  wx.hideLoading();
+                  console.error('定位失败:', err);
                   wx.showToast({
-                    title: '定位失败',
+                    title: '定位失败，请检查GPS设置',
                     icon: 'none'
                   });
+                  this.setDefaultCity();
                 }
               });
             },
             fail: () => {
               wx.showToast({
-                title: '位置权限被拒绝',
+                title: '需要位置权限才能定位',
                 icon: 'none'
               });
+              this.setDefaultCity();
             }
           });
+        } else {
+          // 用户取消授权，设置默认城市
+          this.setDefaultCity();
         }
       }
     });
@@ -132,6 +154,11 @@ Page({
     let minDistance = Infinity;
 
     cities.forEach(city => {
+      // 排除虚拟城市（如"家"、"公司"）
+      if (city.isVirtual) {
+        return;
+      }
+      
       const distance = cityUtils.calculateDistance(lat, lng, city.lat, city.lng);
       if (distance < minDistance) {
         minDistance = distance;
@@ -144,28 +171,34 @@ Page({
 
   // 加载热门航线
   loadPopularRoutes() {
-    // 预设不同时长的专注航线，直接指定时长而不依赖距离计算
+    // 根据实际测试，选择能产生准确飞行时间的城市组合
     const routes = [
-      { from: '家', to: '公司', id: 1, targetDuration: 5 }, // 5分钟
-      { from: '北京', to: '天津', id: 2, targetDuration: 10 }, // 10分钟
-      { from: '上海', to: '苏州', id: 3, targetDuration: 15 }, // 15分钟
-      { from: '北京', to: '石家庄', id: 4, targetDuration: 20 }, // 20分钟
-      { from: '北京', to: '西安', id: 5, targetDuration: 30 }  // 30分钟
+      { from: '家', to: '公司', id: 1 },      // 5分钟（特殊地点）
+      { from: '北京', to: '天津', id: 2 },    // 10分钟（约137km）
+      { from: '北京', to: '青岛', id: 3 },    // 15分钟（手动设置）
+      { from: '北京', to: '石家庄', id: 4 },  // 20分钟（约283km）
+      { from: '上海', to: '武汉', id: 5 }     // 30分钟（约839km，但手动调整为30分钟）
     ];
 
-    // 为每条航线设置固定的时长
     const popularRoutes = routes.map(route => {
       const fromCity = cityUtils.getCityByName(route.from);
       const toCity = cityUtils.getCityByName(route.to);
       
-      // 计算实际距离（用于显示）
+      // 计算实际距离
       const distance = cityUtils.calculateDistance(
         fromCity.lat, fromCity.lng, 
         toCity.lat, toCity.lng
       );
       
-      // 直接使用目标时长，不依赖距离计算
-      const duration = route.targetDuration;
+      // 使用实际计算的飞行时间
+      let duration = cityUtils.calculateFlightTime(distance);
+      
+      // 手动调整特定航线的时间以匹配用户期望
+      if (route.id === 3) {
+        duration = 15; // 北京到青岛：15分钟
+      } else if (route.id === 5) {
+        duration = 30; // 上海到武汉：30分钟
+      }
       
       return {
         ...route,
@@ -206,12 +239,14 @@ Page({
     if (modalType === 'from') {
       this.setData({
         fromCity: city,
-        showCityModal: false
+        showCityModal: false,
+        selectedRoute: null // 清除热门航线选择，使用实际计算时间
       });
     } else {
       this.setData({
         toCity: city,
-        showCityModal: false
+        showCityModal: false,
+        selectedRoute: null // 清除热门航线选择，使用实际计算时间
       });
     }
 
@@ -230,14 +265,15 @@ Page({
     const route = e.currentTarget.dataset.route;
     this.setData({
       fromCity: route.fromCity,
-      toCity: route.toCity
+      toCity: route.toCity,
+      selectedRoute: route // 保存选中的热门航线信息
     });
     this.updateFlightInfo();
   },
 
   // 更新航班信息
   updateFlightInfo() {
-    const { fromCity, toCity } = this.data;
+    const { fromCity, toCity, selectedRoute } = this.data;
     
     if (!fromCity.name || !toCity.name) {
       this.setData({
@@ -260,7 +296,14 @@ Page({
       toCity.lat, toCity.lng
     );
     
-    const duration = cityUtils.calculateFlightTime(distance);
+    // 如果是从热门航线选择的，使用预设时间；否则使用计算时间
+    let duration;
+    if (selectedRoute && selectedRoute.duration) {
+      duration = selectedRoute.duration; // 使用热门航线的预设时间
+    } else {
+      duration = cityUtils.calculateFlightTime(distance); // 使用计算时间
+    }
+    
     const flightNumber = cityUtils.generateFlightNumber(fromCity, toCity);
     const departureTime = this.generateDepartureTime();
 
