@@ -6,7 +6,7 @@ Page({
     defaultCity: {},
     soundEnabled: true,
     vibrationEnabled: true,
-    minDuration: 15,
+    minDuration: 5,
     maxDuration: 180,
     autoPauseEnabled: true,
     showCityModal: false,
@@ -33,7 +33,7 @@ Page({
         defaultCity,
         soundEnabled: settings.soundEnabled !== false,
         vibrationEnabled: settings.vibrationEnabled !== false,
-        minDuration: settings.minDuration || 15,
+        minDuration: settings.minDuration || 5,
         maxDuration: settings.maxDuration || 180,
         autoPauseEnabled: settings.autoPauseEnabled !== false
       });
@@ -140,7 +140,7 @@ Page({
       timeModalTitle: '设置最短专注时间',
       timeModalType: 'min',
       timeOptions,
-      timePickerValue: [currentIndex >= 0 ? currentIndex : 2] // 默认15分钟
+      timePickerValue: [currentIndex >= 0 ? currentIndex : 0] // 默认5分钟
     });
   },
 
