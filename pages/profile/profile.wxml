@@ -54,9 +54,13 @@
         <text class="stat-number">{{totalDistance}}</text>
         <text class="stat-label">总里程(km)</text>
       </view>
-      <view class="stat-item">
+      <view class="stat-item clickable-stat" bindtap="viewCalendar">
         <text class="stat-number">{{continuousDays}}</text>
-        <text class="stat-label">连续天数</text>
+        <view class="stat-label-wrapper">
+          <text class="stat-label">连续天数</text>
+          <text class="calendar-icon">📅</text>
+        </view>
+        <text class="click-hint">点击查看日历</text>
       </view>
     </view>
   </view>

@@ -1,0 +1,304 @@
+/* pages/calendar/calendar.wxss */
+.container {
+  padding: 20rpx 15rpx;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  max-width: 750rpx;
+  margin: 0 auto;
+}
+
+/* 页面标题 */
+.header {
+  text-align: center;
+  margin-bottom: 30rpx;
+}
+
+.title {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 10rpx;
+}
+
+.subtitle {
+  font-size: 28rpx;
+  color: #7f8c8d;
+}
+
+/* 统计信息 */
+.stats-bar {
+  display: flex;
+  justify-content: space-around;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 20rpx;
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+  box-shadow: 0 8rpx 32rpx rgba(102, 126, 234, 0.3);
+}
+
+.stat-item {
+  text-align: center;
+  color: white;
+}
+
+.stat-number {
+  display: block;
+  font-size: 48rpx;
+  font-weight: bold;
+  margin-bottom: 8rpx;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  opacity: 0.9;
+}
+
+/* 日历头部 */
+.calendar-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 20rpx;
+  padding: 30rpx 20rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 8rpx 32rpx rgba(102, 126, 234, 0.3);
+}
+
+.month-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+}
+
+.nav-btn {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 16rpx;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 36rpx;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2rpx solid rgba(255, 255, 255, 0.3);
+  margin: 0;
+  padding: 0;
+  backdrop-filter: blur(10rpx);
+  transition: all 0.3s ease;
+}
+
+.nav-btn:active {
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: scale(0.95);
+}
+
+.month-year {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  margin: 0 30rpx;
+}
+
+.month-text {
+  font-size: 42rpx;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 8rpx;
+  text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.2);
+}
+
+.year-text {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+}
+
+.today-btn {
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #667eea;
+  font-size: 26rpx;
+  font-weight: 600;
+  padding: 16rpx 32rpx;
+  border-radius: 25rpx;
+  border: none;
+  margin: 0;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.today-btn:active {
+  background-color: rgba(255, 255, 255, 0.7);
+  transform: translateY(2rpx);
+}
+
+/* 星期标题 */
+.week-header {
+  display: flex;
+  background-color: white;
+  border-radius: 16rpx 16rpx 0 0;
+  padding: 20rpx 0;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+}
+
+.week-day {
+  flex: 1;
+  text-align: center;
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #34495e;
+}
+
+/* 日历主体 */
+.calendar-body {
+  background-color: white;
+  border-radius: 0 0 16rpx 16rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.calendar-row {
+  display: flex;
+  border-bottom: 1rpx solid #ecf0f1;
+}
+
+.calendar-row:last-child {
+  border-bottom: none;
+}
+
+.calendar-day {
+  flex: 1;
+  height: 100rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-right: 1rpx solid #ecf0f1;
+  transition: all 0.2s ease;
+  min-width: 0;
+}
+
+.calendar-day:last-child {
+  border-right: none;
+}
+
+.calendar-day.current-month {
+  background-color: white;
+}
+
+.calendar-day.other-month {
+  background-color: #f8f9fa;
+}
+
+.calendar-day.other-month .day-number {
+  color: #bdc3c7;
+}
+
+.calendar-day.today {
+  background-color: #3498db;
+}
+
+.calendar-day.today .day-number {
+  color: white;
+  font-weight: bold;
+}
+
+.calendar-day.has-focus {
+  background-color: #e8f5e8;
+}
+
+.calendar-day.has-focus.today {
+  background-color: #27ae60;
+}
+
+.calendar-day:active {
+  background-color: #ecf0f1;
+}
+
+.day-number {
+  font-size: 32rpx;
+  color: #2c3e50;
+  margin-bottom: 4rpx;
+}
+
+/* 专注标记 */
+.focus-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.focus-dot {
+  width: 12rpx;
+  height: 12rpx;
+  background-color: #27ae60;
+  border-radius: 50%;
+  margin-right: 6rpx;
+}
+
+.calendar-day.today .focus-dot {
+  background-color: white;
+}
+
+.focus-count {
+  font-size: 20rpx;
+  color: #27ae60;
+  font-weight: bold;
+}
+
+.calendar-day.today .focus-count {
+  color: white;
+}
+
+/* 图例说明 */
+.legend {
+  display: flex;
+  justify-content: space-around;
+  margin: 30rpx 0;
+  padding: 20rpx;
+  background-color: white;
+  border-radius: 16rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+}
+
+.legend-dot {
+  width: 24rpx;
+  height: 24rpx;
+  border-radius: 50%;
+  margin-right: 12rpx;
+}
+
+.legend-dot.normal {
+  background-color: #ecf0f1;
+  border: 2rpx solid #bdc3c7;
+}
+
+.legend-dot.today {
+  background-color: #3498db;
+}
+
+.legend-dot.focus {
+  background-color: #27ae60;
+}
+
+.legend-text {
+  font-size: 24rpx;
+  color: #7f8c8d;
+}
+
+/* 提示信息 */
+.tips {
+  text-align: center;
+  margin-top: 20rpx;
+}
+
+.tips-text {
+  font-size: 24rpx;
+  color: #95a5a6;
+}

@@ -191,13 +191,20 @@ Page({
       id: Date.now(),
       fromCity,
       toCity,
-      duration: totalDuration,
+      duration: parseInt(totalDuration) || 0, // 确保duration是整数分钟
       flightNumber,
-      distance,
+      distance: parseInt(distance) || 0,
       startTime: this.data.startTime,
       endTime: Date.now(),
       completed: true
     };
+    
+    console.log('准备保存专注记录:', {
+      totalDuration: totalDuration,
+      duration: record.duration,
+      fromCity: fromCity,
+      toCity: toCity
+    });
     
     const app = getApp();
     app.saveFocusRecord(record);
@@ -208,13 +215,6 @@ Page({
       showCelebration: true,
       remainingTime: 0,
       progressPercent: 100
-    });
-
-    // 播放完成音效
-    wx.showToast({
-      title: '专注完成！',
-      icon: 'success',
-      duration: 2000
     });
 
     // 3秒后自动关闭庆祝弹窗

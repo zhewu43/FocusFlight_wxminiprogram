@@ -215,7 +215,32 @@ Page({
   loadStatistics() {
     const app = getApp();
     const focusHistory = app.getFocusHistory();
-    const totalFocusTime = app.getTotalFocusTime();
+    let totalFocusTime = app.getTotalFocusTime();
+
+    // 数据修复：重新计算总时长以修复可能的累加错误
+    const calculatedTotal = focusHistory
+      .filter(record => record.completed)
+      .reduce((sum, record) => {
+        const duration = parseInt(record.duration) || 0;
+        return sum + duration;
+      }, 0);
+
+    // 如果存储的总时长与计算的总时长差异很大，使用计算值并更新存储
+    if (Math.abs(totalFocusTime - calculatedTotal) > calculatedTotal * 0.1) {
+      console.log('检测到时长数据异常，进行修复:', {
+        stored: totalFocusTime,
+        calculated: calculatedTotal
+      });
+      
+      wx.setStorageSync('totalFocusTime', calculatedTotal);
+      app.globalData.totalFocusTime = calculatedTotal;
+      totalFocusTime = calculatedTotal;
+      
+      wx.showToast({
+        title: '数据已自动修复',
+        icon: 'success'
+      });
+    }
 
     // 计算总航班数
     const totalFlights = focusHistory.filter(record => record.completed).length;
@@ -373,6 +398,13 @@ Page({
     });
   },
 
+  // 查看日历页面
+  viewCalendar() {
+    wx.navigateTo({
+      url: '/pages/calendar/calendar'
+    });
+  },
+
   // 前往设置页面
   goToSettings() {
     wx.navigateTo({
@@ -420,7 +452,7 @@ Page({
   aboutApp() {
     wx.showModal({
       title: 'FocusFlight',
-      content: '专注力管理小程序\n版本：1.1.7\n\n通过模拟航班飞行的方式，让专注变得更有趣！',
+      content: '专注力管理小程序\n版本：1.1.9\n\n通过模拟航班飞行的方式，让专注变得更有趣！',
       showCancel: false,
       confirmText: '知道了'
     });

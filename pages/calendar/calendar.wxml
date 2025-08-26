@@ -1,0 +1,84 @@
+<!--pages/calendar/calendar.wxml-->
+<view class="container">
+  <!-- 页面标题 -->
+  <view class="header">
+    <view class="title">专注日历</view>
+    <view class="subtitle">记录你的每一次专注飞行</view>
+  </view>
+
+  <!-- 统计信息 -->
+  <view class="stats-bar">
+    <view class="stat-item">
+      <text class="stat-number">{{totalFocusDays}}</text>
+      <text class="stat-label">总专注天数</text>
+    </view>
+    <view class="stat-item">
+      <text class="stat-number">{{currentMonthFocusDays}}</text>
+      <text class="stat-label">本月专注天数</text>
+    </view>
+  </view>
+
+  <!-- 日历头部 -->
+  <view class="calendar-header">
+    <view class="month-nav">
+      <button class="nav-btn" bindtap="prevMonth">‹</button>
+      <view class="month-year">
+        <text class="month-text">{{monthNames[currentMonth]}}</text>
+        <text class="year-text">{{currentYear}}</text>
+      </view>
+      <button class="nav-btn" bindtap="nextMonth">›</button>
+    </view>
+    
+    <button class="today-btn" bindtap="goToToday">回到今天</button>
+  </view>
+
+  <!-- 星期标题 -->
+  <view class="week-header">
+    <view class="week-day" wx:for="{{weekDays}}" wx:key="*this">
+      <text>{{item}}</text>
+    </view>
+  </view>
+
+  <!-- 日历主体 -->
+  <view class="calendar-body">
+    <view class="calendar-row" wx:for="{{[0,1,2,3,4,5]}}" wx:for-item="weekIndex" wx:key="*this">
+      <view class="calendar-day {{calendarDays[weekIndex * 7 + dayIndex].isCurrentMonth ? 'current-month' : 'other-month'}} {{calendarDays[weekIndex * 7 + dayIndex].isToday ? 'today' : ''}} {{calendarDays[weekIndex * 7 + dayIndex].hasFocus ? 'has-focus' : ''}}" 
+            wx:for="{{[0,1,2,3,4,5,6]}}" 
+            wx:for-item="dayIndex" 
+            wx:key="*this"
+            wx:if="{{calendarDays[weekIndex * 7 + dayIndex]}}"
+            bindtap="onDayTap"
+            data-day="{{calendarDays[weekIndex * 7 + dayIndex]}}">
+        
+        <text class="day-number">{{calendarDays[weekIndex * 7 + dayIndex].day}}</text>
+        
+        <!-- 专注标记 -->
+        <view class="focus-indicator" wx:if="{{calendarDays[weekIndex * 7 + dayIndex].hasFocus}}">
+          <view class="focus-dot"></view>
+          <text class="focus-count">{{calendarDays[weekIndex * 7 + dayIndex].focusData.flights.length}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 图例说明 -->
+  <view class="legend">
+    <view class="legend-item">
+      <view class="legend-dot normal"></view>
+      <text class="legend-text">普通日期</text>
+    </view>
+    <view class="legend-item">
+      <view class="legend-dot today"></view>
+      <text class="legend-text">今天</text>
+    </view>
+    <view class="legend-item">
+      <view class="legend-dot focus"></view>
+      <text class="legend-text">有专注记录</text>
+    </view>
+  </view>
+
+  <!-- 提示信息 -->
+  <view class="tips">
+    <text class="tips-text">💡 点击有专注记录的日期可查看详细信息</text>
+  </view>
+</view>

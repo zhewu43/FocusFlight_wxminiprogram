@@ -3,7 +3,8 @@
     "pages/index/index",
     "pages/focus/focus",
     "pages/profile/profile",
-    "pages/settings/settings"
+    "pages/settings/settings",
+    "pages/calendar/calendar"
   ],
   "window": {
     "backgroundTextStyle": "light",

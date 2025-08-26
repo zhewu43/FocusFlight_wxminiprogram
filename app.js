@@ -25,16 +25,39 @@ App({
   saveFocusRecord(record) {
     try {
       let history = wx.getStorageSync('focusHistory') || []
+      
+      // 检查是否已存在相同ID的记录，防止重复保存
+      const existingRecord = history.find(item => item.id === record.id)
+      if (existingRecord) {
+        console.log('记录已存在，跳过保存:', record.id)
+        return
+      }
+      
       history.unshift(record)
       wx.setStorageSync('focusHistory', history)
       
-      // 更新总专注时间
-      let totalTime = wx.getStorageSync('totalFocusTime') || 0
-      totalTime += record.duration
+      // 更新总专注时间 - 确保duration是数字类型且为分钟
+      let totalTime = parseInt(wx.getStorageSync('totalFocusTime')) || 0
+      const duration = parseInt(record.duration) || 0 // 确保是整数分钟
+      
+      // 验证duration的合理性（1-180分钟）
+      if (duration < 1 || duration > 180) {
+        console.error('异常的duration值:', duration, '原始值:', record.duration)
+        return
+      }
+      
+      totalTime += duration
       wx.setStorageSync('totalFocusTime', totalTime)
       
       this.globalData.focusHistory = history
       this.globalData.totalFocusTime = totalTime
+      
+      console.log('保存专注记录成功:', {
+        recordId: record.id,
+        duration: duration,
+        newTotalTime: totalTime,
+        historyCount: history.length
+      })
     } catch (e) {
       console.error('保存专注记录失败', e)
     }
@@ -55,7 +78,7 @@ App({
   // 获取总专注时间
   getTotalFocusTime() {
     try {
-      const totalTime = wx.getStorageSync('totalFocusTime') || 0
+      const totalTime = parseInt(wx.getStorageSync('totalFocusTime')) || 0
       this.globalData.totalFocusTime = totalTime
       return totalTime
     } catch (e) {
