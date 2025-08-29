@@ -452,7 +452,7 @@ Page({
   aboutApp() {
     wx.showModal({
       title: 'FocusFlight',
-      content: '专注力管理小程序\n版本：1.1.9\n\n通过模拟航班飞行的方式，让专注变得更有趣！',
+      content: '专注力管理小程序\n版本：1.1.10\n\n通过模拟航班飞行的方式，让专注变得更有趣！',
       showCancel: false,
       confirmText: '知道了'
     });
